@@ -38,23 +38,26 @@ class CashRegister:
             print("Not valid discount")
             self._discount = 0
     
-    def add_item(self, item, price, quantity):
+    def add_item(self, item, price, quantity=1):
         """
         Adds an item to the cash register.
-        
+    
         Args:
             item: String name of the item
             price: Float price per individual item
-            quantity: Integer number of items being purchased
-        
+            quantity: Integer number of items being purchased (defaults to 1)
+    
         Updates:
             - Increases total by price * quantity
-            - Adds item name to items array (once, not repeated)
+            - Adds item name to items array quantity times
             - Tracks transaction amount in previous_transactions
         """
         transaction_amount = price * quantity
         self.total += transaction_amount
-        self.items.append(item)
+    
+        for _ in range(quantity):
+          self.items.append(item)
+    
         self.previous_transactions.append(transaction_amount)
     
     def apply_discount(self):
@@ -71,7 +74,12 @@ class CashRegister:
         else:
             discount_amount = self.total * (self.discount / 100)
             self.total -= discount_amount
-            print(f"After the discount, the total comes to ${self.total:.2f}.")
+
+            if self.total == int(self.total):
+              print(f"After the discount, the total comes to ${int(self.total)}.")
+            else:
+              print(f"After the discount, the total comes to ${self.total:.2f}.")
+
     
     def void_last_transaction(self):
         """
